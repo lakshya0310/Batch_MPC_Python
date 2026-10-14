@@ -5,9 +5,14 @@ PyTorch Implementation of the paper:
 Vivek K. Adajania, Aditya Sharma, Anish Gupta, Houman Masnavi, K Madhava Krishna, Arun K. Singh (IEEE RA-L 2022).
 """
 
-from .bernstein import compute_bernstein, BernsteinBasis
+from .bernstein import compute_bernstein, compute_bernstein_tensors, BernsteinBasis
+from .optimizer import BatchTrajectoryOptimizer, OptimizerConfig, OptimizationResult
 
 __all__ = [
     "compute_bernstein",
+    "compute_bernstein_tensors",
     "BernsteinBasis",
+    "BatchTrajectoryOptimizer",
+    "OptimizerConfig",
+    "OptimizationResult",
 ]
