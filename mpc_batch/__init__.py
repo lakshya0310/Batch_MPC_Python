@@ -7,6 +7,9 @@ Vivek K. Adajania, Aditya Sharma, Anish Gupta, Houman Masnavi, K Madhava Krishna
 
 from .bernstein import compute_bernstein, compute_bernstein_tensors, BernsteinBasis
 from .optimizer import BatchTrajectoryOptimizer, OptimizerConfig, OptimizationResult
+from .traffic import HighwayTrafficSimulation, ObstacleVehicle
+from .meta_cost import MetaCostEvaluator
+from .controller import BatchHighwayMPC, EgoState, StepTelemetry
 
 __all__ = [
     "compute_bernstein",
@@ -15,4 +18,10 @@ __all__ = [
     "BatchTrajectoryOptimizer",
     "OptimizerConfig",
     "OptimizationResult",
+    "HighwayTrafficSimulation",
+    "ObstacleVehicle",
+    "MetaCostEvaluator",
+    "BatchHighwayMPC",
+    "EgoState",
+    "StepTelemetry",
 ]
