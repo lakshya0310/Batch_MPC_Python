@@ -1,0 +1,127 @@
+# Configuration file for Batch Non-Holonomic Trajectory Optimization (PyTorch implementation)
+# Paper: "Multi-Modal Model Predictive Control through Batch Non-Holonomic Trajectory Optimization: Application to Highway Driving"
+# Authors: Vivek K. Adajania, Aditya Sharma, Anish Gupta, Houman Masnavi, K Madhava Krishna, Arun K. Singh (IEEE RA-L 2022)
+
+default_setting: "cruise_IDM"
+
+optimizer:
+  t_fin: 8.0               # Planning horizon (seconds)
+  num: 100                 # Number of discretization steps
+  maxiter: 100             # Maximum iterations for Alternating Minimization
+  num_obs: 6               # Number of nearest obstacles tracked
+  v_min: 0.0               # Minimum forward velocity (m/s)
+  v_max: 24.0              # Maximum forward velocity (m/s)
+  v_cruise: 15.0           # Target cruise speed (m/s)
+  a_max: 4.0               # Maximum total acceleration (m/s^2)
+  a_obs: 5.6               # Semi-major axis of collision ellipse (m, includes ego inflation)
+  b_obs: 3.0               # Semi-minor axis of collision ellipse (m, includes ego inflation)
+  weight_smoothness: 2.5   # Weight on x-y trajectory acceleration (jerk/smoothness)
+  weight_smoothness_psi: 5.0 # Weight on heading angular acceleration
+  rho_init: 1.0            # Initial penalty parameter for Augmented Lagrangian
+  rho_scale: 1.06          # Penalty ramping factor per iteration
+
+simulation:
+  dt: 0.08                 # Simulation timestep (seconds)
+  control_dt: 0.008        # High-resolution control command timestep
+  a_rect: 4.0              # Vehicle length (m)
+  b_rect: 1.4              # Vehicle width (m)
+  lanes: [-10, -6, -2, 2, 6, 10] # Road lane centerlines (y in meters)
+  rightmost_lane_y: -10.0  # y coordinate of the rightmost lane
+
+scenarios:
+  cruise_IDM:
+    name: "Cruise Driving (IDM)"
+    num_goals: 11
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
+    weights: [50.0, 50.0, 0.0, 0.0] # [w_cruise, w_obstacle_clearance, w_right_lane, w_max_velocity]
+    ego_init:
+      x: 0.0
+      y: 10.0
+      v: 14.0
+      psi: 0.0
+
+  HSRL_IDM:
+    name: "High-Speed Right-Lane (HSRL IDM)"
+    num_goals: 11
+    x_g: [150, 155, 160, 165, 170, 175, 160, 160, 160, 160, 160]
+    y_g: [-10, -10, -10, -10, -10, -10, -6, -2, 2, 6, 10]
+    weights: [0.0, 50.0, 25.0, 25.0]
+    ego_init:
+      x: 0.0
+      y: 10.0
+      v: 14.0
+      psi: 0.0
+
+  RL_IDM:
+    name: "Right-Lane Preference (RL IDM)"
+    num_goals: 11
+    x_g: [110, 115, 120, 125, 130, 135, 120, 120, 120, 120, 120]
+    y_g: [-10, -10, -10, -10, -10, -10, -6, -2, 2, 6, 10]
+    weights: [0.0, 50.0, 50.0, 0.0]
+    ego_init:
+      x: 0.0
+      y: 10.0
+      v: 14.0
+      psi: 0.0
+
+batch_scaling:
+  batch_SZ_2:
+    num_goals: 2
+    x_g: [120, 120]
+    y_g: [-2, 2]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_4:
+    num_goals: 4
+    x_g: [120, 120, 120, 120]
+    y_g: [-4, -2, 2, 4]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_6:
+    num_goals: 6
+    x_g: [120, 120, 120, 120, 120, 120]
+    y_g: [-6, -4, -2, 2, 4, 6]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_8:
+    num_goals: 8
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120]
+    y_g: [-8, -6, -4, -2, 2, 4, 6, 8]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_10:
+    num_goals: 10
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+    y_g: [-10, -8, -6, -4, -2, 2, 4, 6, 8, 10]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_11:
+    num_goals: 11
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_12:
+    num_goals: 12
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 130, 130]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 0]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_14:
+    num_goals: 14
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 130, 130, 130]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 0, -2, 2]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_16:
+    num_goals: 16
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 130, 130, 130, 130, 130]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 0, -2, 2, 4, -4]
+    weights: [50.0, 50.0, 0.0, 0.0]
+
+  batch_SZ_20:
+    num_goals: 20
+    x_g: [120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 130, 130, 130, 130, 130, 130, 130, 130, 130]
+    y_g: [-10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 0, -2, 2, 4, -4, 6, -6, -8, 8]
+    weights: [50.0, 50.0, 0.0, 0.0]
