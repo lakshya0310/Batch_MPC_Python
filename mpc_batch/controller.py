@@ -225,3 +225,4 @@ class BatchHighwayMPC:
         self.telemetry_history.append(telemetry)
         
         return telemetry
+

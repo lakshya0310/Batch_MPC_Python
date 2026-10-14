@@ -238,3 +238,4 @@ class HighwayTrafficSimulation:
             if val < 1.0:
                 return True
         return False
+

@@ -109,3 +109,4 @@ def compute_bernstein(
     """
     tot_time = torch.linspace(0.0, t_fin, steps=num, device=device, dtype=dtype)
     return compute_bernstein_tensors(tot_time, t_fin, device=device, dtype=dtype)
+
